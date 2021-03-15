@@ -1,0 +1,22 @@
+cmake_minimum_required(VERSION 3.10.2)
+project(detectBucket)
+
+add_definitions("-D_DEBUG")
+find_package(OpenCV 3.0.0 REQUIRED)
+include_directories(${OpenCV_INCLUDE_DIRS})
+link_directories(${OpenCV_LIBRARY_DIRS})
+if(WIN32)
+    message("genrating on windows")
+    include_directories("C:\\Program Files\\Intel RealSense SDK 2.0\\include")
+    link_directories("C:\\Program Files\\Intel RealSense SDK 2.0\\lib\\x64")
+elseif(UNIX)
+    message("genrating on linux")
+else()
+    message("genrating on unsupported platform")
+endif()
+
+aux_source_directory(./src DIR_SRCS)
+include_directories(./inc)
+
+add_executable(detectBucket ${DIR_SRCS})
+target_link_libraries(detectBucket ${OpenCV_LIBS} realsense2)
